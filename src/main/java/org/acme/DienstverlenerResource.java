@@ -33,7 +33,7 @@ public class DienstverlenerResource {
 
     @DELETE
     public Set<Dienstverlener> delete(Dienstverlener dienstverlener) {
-        dvs.removeIf(existingDienstverlener -> existingDienstverlener.name.contentEquals(dienstverlener.name));
+        dvs.removeIf(existingDienstverlener -> existingDienstverlener.name().contentEquals(dienstverlener.name()));
         return dvs;
     }
 }
