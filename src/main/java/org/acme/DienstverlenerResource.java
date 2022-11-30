@@ -26,14 +26,14 @@ public class DienstverlenerResource {
     }
 
     @POST
-    public Set<Dienstverlener> add(Dienstverlener Dienstverlener) {
-        dvs.add(Dienstverlener);
+    public Set<Dienstverlener> add(Dienstverlener dienstverlener) {
+        dvs.add(dienstverlener);
         return dvs;
     }
 
     @DELETE
-    public Set<Dienstverlener> delete(Dienstverlener Dienstverlener) {
-        dvs.removeIf(existingDienstverlener -> existingDienstverlener.name.contentEquals(Dienstverlener.name));
+    public Set<Dienstverlener> delete(Dienstverlener dienstverlener) {
+        dvs.removeIf(existingDienstverlener -> existingDienstverlener.name.contentEquals(dienstverlener.name));
         return dvs;
     }
 }
