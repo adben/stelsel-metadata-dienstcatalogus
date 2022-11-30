@@ -35,7 +35,7 @@ public class AuthenticatieDienstResource {
 
     @DELETE
     public Set<AuthenticatieDienst> delete(AuthenticatieDienst authenticatieDienst) {
-        ads.removeIf(existingAuthenticatieDienst -> existingAuthenticatieDienst.name().contentEquals(authenticatieDienst.name()));
+        ads.removeIf(existingAuthenticatieDienst -> existingAuthenticatieDienst.name.contentEquals(authenticatieDienst.name));
         return ads;
     }
 }

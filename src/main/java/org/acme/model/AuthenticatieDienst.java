@@ -1,4 +1,15 @@
 package org.acme.model;
 
-public record AuthenticatieDienst(String name, String description) {
+public class AuthenticatieDienst {
+
+    public String name;
+    public String description;
+
+    public AuthenticatieDienst() {
+    }
+
+    public AuthenticatieDienst(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
