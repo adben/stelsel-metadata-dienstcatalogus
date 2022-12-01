@@ -54,11 +54,11 @@ public class DienstverlenerResource {
 
         ResourceClient client = RestClientBuilder.newBuilder().baseUri(uriInfo.getBaseUri()).build(ResourceClient.class);
 
-        return dvs.stream().map(d -> {
+        return dvs.stream().map(dv -> {
             List<Map<String, Object>> providers = client.authenticatiediensten().stream()
-                    .map(a -> TemplateUtils.generateFromTemplate(d, a, oidcProviderTemplate))
+                    .map(ad -> TemplateUtils.generateProviderFromTemplate(dv, ad, oidcProviderTemplate))
                     .collect(Collectors.toList());
-            return new Dienstverlener(d.name, d.description, providers);
+            return new Dienstverlener(dv.name, dv.description, providers);
         }).collect(Collectors.toSet());
     }
 

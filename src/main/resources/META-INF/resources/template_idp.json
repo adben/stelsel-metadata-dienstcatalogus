@@ -1,7 +1,4 @@
 {
-  "alias": "oidc-AD1-Seb",
-  "displayName": "API-created-oidc-AD1-Seb",
-  "providerId": "keycloak-oidc",
   "enabled": true,
   "updateProfileFirstLoginMode": "on",
   "trustEmail": false,

@@ -25,12 +25,22 @@ public interface TemplateUtils {
         }
     }
 
-    static Map<String, Object> generateFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
-        String naam = "dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
-
+    static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+        String naam = "client-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
         return ImmutableMap.<String, Object>builder()
                 .put("name", naam)
                 .put("clientId", naam)
+                .putAll(template)
+                .build();
+
+    }
+
+    static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+        String naam = "provider-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
+        return ImmutableMap.<String, Object>builder()
+                .put("alias", naam)
+                .put("displayName", naam)
+                .put("providerId", naam)
                 .putAll(template)
                 .build();
 
