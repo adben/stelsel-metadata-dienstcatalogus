@@ -1,14 +1,13 @@
 package org.acme;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.Test;
-
-import io.quarkus.test.junit.QuarkusTest;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @QuarkusTest
 class ADResourceTest {
@@ -28,7 +27,15 @@ class ADResourceTest {
     @Test
     void testBAdd() {
         given()
-                .body("{\"name\": \"Derde\", \"description\": \"Derde Authenticatiedienst\"}")
+                .body("{\n" +
+                        "  \"name\": \"Derde\",\n" +
+                        "  \"description\": \"Derde Authenticatiedienst\",\n" +
+                        "  \"clients\": [\n" +
+                        "    {\n" +
+                        "      \"some\": \"provider\"\n" +
+                        "    }\n" +
+                        "  ]\n" +
+                        "}")
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .when()
                 .post("/authenticatiediensten")

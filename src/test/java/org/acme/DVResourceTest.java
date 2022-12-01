@@ -26,7 +26,15 @@ class DVResourceTest {
     @Test
     void testBDVd() {
         given()
-                .body("{\"name\": \"Derde\", \"description\": \"Derde Dienstverlener\"}")
+                .body("{\n" +
+                        "  \"name\": \"Derde\",\n" +
+                        "  \"description\": \"Derde Dienstverlener\",\n" +
+                        "  \"provider\": [\n" +
+                        "    {\n" +
+                        "      \"some\": \"provider\"\n" +
+                        "    }\n" +
+                        "  ]\n" +
+                        "}")
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .when()
                 .post("/dienstverlener")
