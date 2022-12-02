@@ -54,10 +54,10 @@ public class AuthenticatieDienstResource {
                 .baseUri(uriInfo.getBaseUri())
                 .build(ResourceClient.class);
 
-        return ads.stream().map(a -> {
+        return ads.stream().map(ad -> {
                     List<Map<String, Object>> clients = client.dienstverleners().stream()
-                            .map(dv -> TemplateUtils.generateClientFromTemplate(dv, a, oidcTemplate)).collect(Collectors.toList());
-                    return new AuthenticatieDienst(a.name, a.description, clients);
+                            .map(dv -> TemplateUtils.generateClientFromTemplate(dv, ad, oidcTemplate)).collect(Collectors.toList());
+                    return new AuthenticatieDienst(ad.name, ad.description, clients);
                 })
                 .collect(Collectors.toSet());
     }

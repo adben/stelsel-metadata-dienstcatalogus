@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public interface TemplateUtils {
-    Logger LOG = Logger.getLogger(AuthenticatieDienstResource.class);
+    Logger LOG = Logger.getLogger(TemplateUtils.class);
 
     static Map<String, Object> lezen(String path) {
         // sjabloon lezen
