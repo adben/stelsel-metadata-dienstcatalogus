@@ -25,17 +25,26 @@ public interface TemplateUtils {
         }
     }
 
-    static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+    static Map<String, Object> obtainProviders(AuthenticatieDienst ad, Dienstverlener dv, final Map<String, Object> oidcProviderTemplate, final Map<String, Object> samlProviderTemplate) {
+        return Map.of(ad.name, Map.of("oidc", generateProviderFromTemplate(dv, ad, oidcProviderTemplate),
+                "saml", generateProviderFromTemplate(dv, ad, samlProviderTemplate)));
+    }
+
+    static Map<String, Object> obtainClients(Dienstverlener dv, AuthenticatieDienst ad, final Map<String, Object> oidcProviderTemplate, final Map<String, Object> samlProviderTemplate) {
+        return Map.of(dv.name, Map.of("oidc", generateClientFromTemplate(dv, ad, oidcProviderTemplate),
+                "saml", generateClientFromTemplate(dv, ad, samlProviderTemplate)));
+    }
+
+    private static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
         String naam = "client-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
         return ImmutableMap.<String, Object>builder()
                 .put("name", naam)
                 .put("clientId", naam)
                 .putAll(template)
                 .build();
-
     }
 
-    static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+    private static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
         String naam = "provider-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
         return ImmutableMap.<String, Object>builder()
                 .put("alias", naam)
@@ -43,6 +52,5 @@ public interface TemplateUtils {
                 .put("providerId", naam)
                 .putAll(template)
                 .build();
-
     }
 }

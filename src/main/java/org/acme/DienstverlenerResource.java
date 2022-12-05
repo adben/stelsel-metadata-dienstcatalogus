@@ -32,9 +32,11 @@ public class DienstverlenerResource {
 
 
     Map<String, Object> oidcProviderTemplate;
+    Map<String, Object> samlProviderTemplate;
 
     public DienstverlenerResource() {
-        oidcProviderTemplate = TemplateUtils.lezen("META-INF/resources/template_idp.json");
+        oidcProviderTemplate = TemplateUtils.lezen("META-INF/resources/template_oidc_idp.json");
+        samlProviderTemplate = TemplateUtils.lezen("META-INF/resources/template_saml_idp.json");
         dvs.add(new Dienstverlener("DV1", "Eerste Dienstverlener"));
         dvs.add(new Dienstverlener("DV2", "Tweede Dienstverlener"));
     }
@@ -56,7 +58,7 @@ public class DienstverlenerResource {
 
         return dvs.stream().map(dv -> {
             List<Map<String, Object>> providers = client.authenticatiediensten().stream()
-                    .map(ad -> TemplateUtils.generateProviderFromTemplate(dv, ad, oidcProviderTemplate))
+                    .map(ad -> TemplateUtils.obtainProviders(ad, dv, oidcProviderTemplate, samlProviderTemplate))
                     .collect(Collectors.toList());
             return new Dienstverlener(dv.name, dv.description, providers);
         }).collect(Collectors.toSet());

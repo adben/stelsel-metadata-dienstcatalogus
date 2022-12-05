@@ -19,7 +19,8 @@ class DVResourceTest {
                 .statusCode(200)
                 .body("$.size()", is(2),
                         "name", containsInAnyOrder("DV1", "DV2"),
-                        "description", containsInAnyOrder("Eerste Dienstverlener", "Tweede Dienstverlener")
+                        "description", containsInAnyOrder("Eerste Dienstverlener", "Tweede Dienstverlener"),
+                        "providers.size()", is(2) //AD1, AD2
                 );
     }
 

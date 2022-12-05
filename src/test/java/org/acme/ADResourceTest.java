@@ -20,7 +20,8 @@ class ADResourceTest {
                 .statusCode(200)
                 .body("$.size()", is(2),
                         "name", containsInAnyOrder("AD1", "AD2"),
-                        "description", containsInAnyOrder("Eerste Authenticatiedienst", "Tweede Authenticatiedienst")
+                        "description", containsInAnyOrder("Eerste Authenticatiedienst", "Tweede Authenticatiedienst"),
+                        "clients.size()", is(2) //DV1, DV2
                 );
     }
 

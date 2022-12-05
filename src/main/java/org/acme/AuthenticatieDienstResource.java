@@ -29,10 +29,12 @@ public class AuthenticatieDienstResource {
 
     private final Set<AuthenticatieDienst> ads = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
-    Map<String, Object> oidcTemplate;
+    Map<String, Object> oidcClientTemplate;
+    Map<String, Object> samlClientTemplate;
 
     public AuthenticatieDienstResource() {
-        oidcTemplate = TemplateUtils.lezen("META-INF/resources/template_oidc_client.json");
+        oidcClientTemplate = TemplateUtils.lezen("META-INF/resources/template_oidc_client.json");
+        samlClientTemplate = TemplateUtils.lezen("META-INF/resources/template_saml_client.json");
         ads.add(new AuthenticatieDienst("AD1", "Eerste Authenticatiedienst"));
         ads.add(new AuthenticatieDienst("AD2", "Tweede Authenticatiedienst"));
     }
@@ -56,7 +58,8 @@ public class AuthenticatieDienstResource {
 
         return ads.stream().map(ad -> {
                     List<Map<String, Object>> clients = client.dienstverleners().stream()
-                            .map(dv -> TemplateUtils.generateClientFromTemplate(dv, ad, oidcTemplate)).collect(Collectors.toList());
+                            .map(dv -> TemplateUtils.obtainClients(dv, ad, oidcClientTemplate, samlClientTemplate))
+                            .collect(Collectors.toList());
                     return new AuthenticatieDienst(ad.name, ad.description, clients);
                 })
                 .collect(Collectors.toSet());

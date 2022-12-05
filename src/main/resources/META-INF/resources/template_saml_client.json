@@ -1,0 +1,54 @@
+{
+  "description": "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV",
+  "surrogateAuthRequired": false,
+  "enabled": true,
+  "alwaysDisplayInConsole": false,
+  "clientAuthenticatorType": "client-secret",
+  "secret": "nZcxgpkUqi02T2JiFdWVdvKXSFSCRDyA",
+  "redirectUris": [
+    "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV/broker/saml-ad1/endpoint"
+  ],
+  "webOrigins": [
+    "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com"
+  ],
+  "notBefore": 0,
+  "bearerOnly": false,
+  "consentRequired": false,
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": false,
+  "serviceAccountsEnabled": false,
+  "publicClient": false,
+  "frontchannelLogout": true,
+  "protocol": "saml",
+  "attributes": {
+    "client.secret.creation.time": "1670244377",
+    "saml_single_logout_service_url_post": "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV/broker/saml-ad1/endpoint",
+    "saml.force.post.binding": "true",
+    "saml.encrypt": "false",
+    "saml_assertion_consumer_url_post": "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV/broker/saml-ad1/endpoint",
+    "saml.server.signature": "true",
+    "saml.server.signature.keyinfo.ext": "false",
+    "saml.signing.certificate": "MIICkzCCAXsCBgGE4cjOWzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQDDAJEVjAeFw0yMjEyMDUxMDE0MDRaFw0zMjEyMDUxMDE1NDRaMA0xCzAJBgNVBAMMAkRWMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwaEkzSxvNaMcuNEHyWjuDzLQgrVgP4FXWyHfZtWZzCtu/Xs+O5ssHfugq+lvrT6C1ORFCODEBWwR+E72XUFhZtmhpXvn0diXrPMVcwtFxB1AmG3QVL1fecU4AFo2XHmEOLC+/HWPyCfJZkc6RmoBopNULIFadbTZqft3sI6NcdWqcropM4nIcYEzTOUWfgVMlFE7pMiELofuqVUnVuKSt83Cw3dBCY3CiqABF1L2dnZ7HF1djsAjnLEIyxcG8ZO8JxYE39ie1cbDvND8uWEdjroOphMuFPBc2tUuNz3YdqbF5ma+KHYThX32fw1faDQn2FyRVQae26O/7LWTntQITwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQB+8cYuOF9lhtmoilHWBG9Y3ldXBYhxNot5/ubnHEyGMQXqdHfIW4GNohlRelm7IYv6mFuO8daFWwq+zOgR0zDHULIZe/uN7NPCX8WB59ZehISCL/09f6/bq8AAwVxsWRgfvG43LrhcZTIE5pItuHbCq5nBFKm7mL55Zf3lBn58drBXuoFgUngjYxYtKrmQDwCk9cOO8DpmAaaGGA8NR9s9IqbDNcu6GcNEYC9lY0ClamslMCKs12ZgswIikqV5KUtKw/OUNhbxRYs5POVt0Ei3xxL7n+YxZYWbQBxnw6yDyeh5+uaYwD4EEAf67n/kHeabBscg4a80SLlSfh0ys3Ac",
+    "saml.artifact.binding.identifier": "wHCg7K+iHBHxOmokBnCId3bIsHM=",
+    "saml.signature.algorithm": "RSA_SHA256",
+    "saml_force_name_id_format": "false",
+    "saml.client.signature": "true",
+    "saml.authnstatement": "true",
+    "saml_name_id_format": "persistent",
+    "saml.allow.ecp.flow": "false",
+    "saml_signature_canonicalization_method": "http://www.w3.org/2001/10/xml-exc-c14n#"
+  },
+  "authenticationFlowBindingOverrides": {},
+  "fullScopeAllowed": true,
+  "nodeReRegistrationTimeout": -1,
+  "defaultClientScopes": [
+    "role_list"
+  ],
+  "optionalClientScopes": [],
+  "access": {
+    "view": true,
+    "configure": true,
+    "manage": true
+  }
+},
