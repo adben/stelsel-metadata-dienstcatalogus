@@ -4,7 +4,7 @@ Deployment op Sandbox
 
 ```shell
 
-mvn clean install -Dquarkus.kubernetes-client.master-url=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443 -Dquarkus.kubernetes-client.token=sha256~BhXA3lXa2Hx_Xh-HnORM3RKLnr9FaIswZ27lfPzSaUs
+mvn clean install -Dquarkus.kubernetes-client.master-url=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443 -Dquarkus.kubernetes-client.token=sha256~lkq9TtcnLOemznzjYtABy6XPJ4_ySuJRz44iq7W7hos
 ```
 ```shell
 
