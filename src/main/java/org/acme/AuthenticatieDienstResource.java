@@ -60,7 +60,7 @@ public class AuthenticatieDienstResource {
                     List<Map<String, Object>> clients = client.dienstverleners().stream()
                             .map(dv -> TemplateUtils.obtainClients(dv, ad, oidcClientTemplate, samlClientTemplate))
                             .collect(Collectors.toList());
-                    return new AuthenticatieDienst(ad.name, ad.description, clients);
+                    return new AuthenticatieDienst(ad.name, ad.fullname, clients);
                 })
                 .collect(Collectors.toSet());
     }
