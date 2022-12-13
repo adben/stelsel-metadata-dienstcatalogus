@@ -139,9 +139,26 @@ components:
       properties:
         name:
           type: string
-        description:
+        iss:
           type: string
-        clients:
+        fullname:
+          type: string
+        fullname+nl:
+          type: string
+        fullname+en:
+          type: string
+        logo:
+          type: string
+        LoA:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        SAML-metadata:
+          type: string
+        OIDC-metadata:
+          type: string
+        DVs:
           type: array
     Dienstverlener:
       type: object
@@ -150,5 +167,30 @@ components:
           type: string
         description:
           type: string
-        providers:
+        iss:
+          type: string
+        classification:
+          type: string
+        schemeVersion:
+          type: string
+        src:
+          type: string
+        archiveURI:
+          type: string
+        publicationSerial:
+          format: int64
+          type: integer
+        publicationDate:
+          $ref: '#/components/schemas/LocalDateTime'
+        nextUpdate:
+          $ref: '#/components/schemas/LocalDateTime'
+        validUntil:
+          $ref: '#/components/schemas/LocalDateTime'
+        ADs:
           type: array
+        MDs:
+          type: array
+    LocalDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50
