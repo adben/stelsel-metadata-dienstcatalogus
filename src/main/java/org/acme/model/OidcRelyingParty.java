@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record OidcRelyingParty(
         @JsonProperty(required = true)
-
+        String name,
+        @JsonProperty(required = true)
         String description,
         String consentText,
         @JsonProperty(required = true)
@@ -12,6 +13,10 @@ public record OidcRelyingParty(
         @JsonProperty(required = true)
         String clientId,
         @JsonProperty(value = "jwks_uri", required = true)
-        String jwksUri
+        String jwksUri,
+        @JsonProperty(value = "redirect_uris", required = true)
+        String[] redirectUris,
+        @JsonProperty(value = "post_logout_redirect_uri", required = true)
+        String[] postLogoutRedirectUris
 ) implements RelyingParty {
 }
