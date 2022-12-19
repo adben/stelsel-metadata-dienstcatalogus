@@ -59,7 +59,7 @@ public class DienstverlenerResource {
         return dvs.stream().map(dv -> {
             List<Map<String, Object>> providers = client.authenticatiediensten().stream()
                     .map(ad -> TemplateUtils.obtainProviders(ad, dv, oidcProviderTemplate, samlProviderTemplate))
-                    .collect(Collectors.toList());
+                    .toList();
             return new Dienstverlener(dv.name, dv.description, providers);
         }).collect(Collectors.toSet());
     }
