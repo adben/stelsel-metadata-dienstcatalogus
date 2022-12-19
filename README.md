@@ -23,8 +23,10 @@ oc get pods
 oc get svc
 ```
 
+Maak een `edge` route.
+Dit zorgt ervoor dat de service via HTTPS geexposed wordt, zonder dat we zelf HTTPS setup moeten doen.
 ```shell
-oc expose svc/stelsel-metadata-dienstcatalogus
+oc create route edge --service=stelsel-metadata-dienstcatalogus
 ```
 
 ## Keycloak deployment op Sandbox
