@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.acme.model.OidcRelyingParty;
 import org.acme.model.RelyingParty;
 import org.acme.model.SamlRelyingParty;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,24 +31,24 @@ public class RelyingPartyResource {
 
     @GET
     @Path("/oidc/{clientId}")
-    public Response findOidcRp(@PathParam("clientId") String clientId) {
+    public RestResponse<OidcRelyingParty> findOidcRp(@PathParam("clientId") String clientId) {
         return relyingParties.stream()
                 .filter(rp -> rp instanceof OidcRelyingParty orp && orp.clientId().equals(clientId))
+                .map(OidcRelyingParty.class::cast)
                 .findFirst()
-                .map(Response::ok)
-                .orElseGet(() -> Response.status(Response.Status.NOT_FOUND))
-                .build();
+                .map(RestResponse::ok)
+                .orElseGet(() -> RestResponse.status(Response.Status.NOT_FOUND));
     }
 
     @GET
     @Path("/saml/{entityId}")
-    public Response findSamlRp(@PathParam("entityId") String entityId) {
+    public RestResponse<SamlRelyingParty> findSamlRp(@PathParam("entityId") String entityId) {
         return relyingParties.stream()
                 .filter(rp -> rp instanceof SamlRelyingParty orp && orp.entityId().equals(entityId))
+                .map(SamlRelyingParty.class::cast)
                 .findFirst()
-                .map(Response::ok)
-                .orElseGet(() -> Response.status(Response.Status.NOT_FOUND))
-                .build();
+                .map(RestResponse::ok)
+                .orElseGet(() -> RestResponse.status(Response.Status.NOT_FOUND));
     }
 }
 
