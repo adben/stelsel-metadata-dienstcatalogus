@@ -6,10 +6,8 @@ import org.acme.model.RelyingParty;
 import org.acme.model.SamlRelyingParty;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -25,12 +23,14 @@ public class RelyingPartyResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public RelyingPartyResult list() {
         return RelyingPartyResult.of(relyingParties);
     }
 
     @GET
     @Path("/oidc/{clientId}")
+    @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<OidcRelyingParty> findOidcRp(@PathParam("clientId") String clientId) {
         return relyingParties.stream()
                 .filter(rp -> rp instanceof OidcRelyingParty orp && orp.clientId().equals(clientId))
@@ -42,6 +42,7 @@ public class RelyingPartyResource {
 
     @GET
     @Path("/saml/{entityId}")
+    @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<SamlRelyingParty> findSamlRp(@PathParam("entityId") String entityId) {
         return relyingParties.stream()
                 .filter(rp -> rp instanceof SamlRelyingParty orp && orp.entityId().equals(entityId))
