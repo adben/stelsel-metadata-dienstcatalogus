@@ -1,4 +1,6 @@
-PoC AD metadata en Dienstcatalogus
+# PoC AD metadata en Dienstcatalogus
+
+Voor het cookbook, zie [docs/Cookbook.md](docs/Cookbook.md)
 
 ## API build & deployment op Sandbox
 Zorg dat je ingelogd bent op OpenShift. Gebruik bijv. `Copy login command` in de OpenShift (sandbox) web interface.
