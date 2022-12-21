@@ -1,4 +1,7 @@
 {
+  "alias": "{alias}",
+  "displayName": "{displayName}",
+  "providerId": "{providerId}",
   "enabled": true,
   "updateProfileFirstLoginMode": "on",
   "trustEmail": false,

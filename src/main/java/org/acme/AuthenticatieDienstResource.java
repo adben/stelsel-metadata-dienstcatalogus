@@ -1,5 +1,7 @@
 package org.acme;
 
+import io.quarkus.qute.Location;
+import io.quarkus.qute.Template;
 import org.acme.model.AuthenticatieDienst;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.logging.Logger;
@@ -29,12 +31,12 @@ public class AuthenticatieDienstResource {
 
     private final Set<AuthenticatieDienst> ads = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
-    Map<String, Object> oidcClientTemplate;
-    Map<String, Object> samlClientTemplate;
+    @Location("template_oidc_client.json")
+    Template oidcClientTemplate;
 
+    @Location("template_saml_client.json")
+    Template samlClientTemplate;
     public AuthenticatieDienstResource() {
-        oidcClientTemplate = TemplateUtils.lezen("META-INF/resources/template_oidc_client.json");
-        samlClientTemplate = TemplateUtils.lezen("META-INF/resources/template_saml_client.json");
         ads.add(new AuthenticatieDienst("AD1", "Eerste Authenticatiedienst"));
         ads.add(new AuthenticatieDienst("AD2", "Tweede Authenticatiedienst"));
     }

@@ -1,7 +1,9 @@
 package org.acme;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import io.quarkus.qute.Template;
 import org.acme.model.AuthenticatieDienst;
 import org.acme.model.Dienstverlener;
 import org.jboss.logging.Logger;
@@ -25,32 +27,39 @@ public interface TemplateUtils {
         }
     }
 
-    static Map<String, Object> obtainProviders(AuthenticatieDienst ad, Dienstverlener dv, final Map<String, Object> oidcProviderTemplate, final Map<String, Object> samlProviderTemplate) {
+    static Map<String, Object> obtainProviders(AuthenticatieDienst ad, Dienstverlener dv, final Template oidcProviderTemplate, final Template samlProviderTemplate) {
         return Map.of(ad.name, Map.of("oidc", generateProviderFromTemplate(dv, ad, oidcProviderTemplate),
                 "saml", generateProviderFromTemplate(dv, ad, samlProviderTemplate)));
     }
 
-    static Map<String, Object> obtainClients(Dienstverlener dv, AuthenticatieDienst ad, final Map<String, Object> oidcProviderTemplate, final Map<String, Object> samlProviderTemplate) {
-        return Map.of(dv.name, Map.of("oidc", generateClientFromTemplate(dv, ad, oidcProviderTemplate),
-                "saml", generateClientFromTemplate(dv, ad, samlProviderTemplate)));
+    static Map<String, Object> obtainClients(Dienstverlener dv, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
+        return Map.of(dv.name, Map.of("oidc", generateClientFromTemplate(dv, ad, oidcClientTemplate),
+                "saml", generateClientFromTemplate(dv, ad, samlClientTemplate)));
     }
 
-    private static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+    private static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Template template) {
         String naam = "client-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        return ImmutableMap.<String, Object>builder()
-                .put("name", naam)
-                .put("clientId", naam)
-                .putAll(template)
-                .build();
+        var rawJson = template
+                .data("name", naam)
+                .data("clientId", naam).render();
+        try {
+            return new ObjectMapper().readValue(rawJson, Map.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Map<String, Object> template) {
+    private static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Template template) {
         String naam = "provider-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        return ImmutableMap.<String, Object>builder()
-                .put("alias", naam)
-                .put("displayName", naam)
-                .put("providerId", naam)
-                .putAll(template)
-                .build();
+        var rawJson = template
+                .data("alias", naam)
+                .data("displayName", naam)
+                .data("providerId", naam)
+                .render();
+        try {
+            return new ObjectMapper().readValue(rawJson, Map.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

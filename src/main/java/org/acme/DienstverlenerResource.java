@@ -1,5 +1,7 @@
 package org.acme;
 
+import io.quarkus.qute.Location;
+import io.quarkus.qute.Template;
 import org.acme.model.Dienstverlener;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.logging.Logger;
@@ -28,15 +30,15 @@ public class DienstverlenerResource {
     @Context
     private UriInfo uriInfo;
 
+    @Location("template_oidc_idp.json")
+    Template oidcProviderTemplate;
+
+    @Location("template_saml_idp.json")
+    Template samlProviderTemplate;
+
     private final Set<Dienstverlener> dvs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
-
-    Map<String, Object> oidcProviderTemplate;
-    Map<String, Object> samlProviderTemplate;
-
     public DienstverlenerResource() {
-        oidcProviderTemplate = TemplateUtils.lezen("META-INF/resources/template_oidc_idp.json");
-        samlProviderTemplate = TemplateUtils.lezen("META-INF/resources/template_saml_idp.json");
         dvs.add(new Dienstverlener("DV1", "Eerste Dienstverlener"));
         dvs.add(new Dienstverlener("DV2", "Tweede Dienstverlener"));
     }

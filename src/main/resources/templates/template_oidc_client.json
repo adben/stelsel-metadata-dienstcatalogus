@@ -1,4 +1,6 @@
 {
+  "name": "{name}",
+  "clientId": "{clientId}",
   "description": "description-DV1-Adolfo-client-forAD1-Seb",
   "rootUrl": "",
   "adminUrl": "",

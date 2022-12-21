@@ -1,4 +1,6 @@
 {
+  "name": "{name}",
+  "clientId": "{clientId}",
   "description": "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV",
   "surrogateAuthRequired": false,
   "enabled": true,
