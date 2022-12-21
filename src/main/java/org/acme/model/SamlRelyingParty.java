@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record SamlRelyingParty(
         @JsonProperty(required = true)
+        String name,
+        @JsonProperty(required = true)
         String description,
         String consentText,
         @JsonProperty(required = true)

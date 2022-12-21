@@ -10,4 +10,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
         @JsonSubTypes.Type(value = SamlRelyingParty.class, name = "saml")
 })
 public sealed interface RelyingParty permits OidcRelyingParty, SamlRelyingParty {
+    String name();
 }

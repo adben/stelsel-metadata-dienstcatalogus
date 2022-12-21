@@ -1,6 +1,7 @@
 package org.acme;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.acme.model.Dienstverlener;
 import org.acme.model.OidcRelyingParty;
 import org.acme.model.RelyingParty;
 import org.acme.model.SamlRelyingParty;
@@ -11,11 +12,25 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 @Path("/relyingparties")
 public class RelyingPartyResource {
     private final Set<RelyingParty> relyingParties = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
+
+    public RelyingPartyResource() {
+        relyingParties.add(new OidcRelyingParty(
+            "client-dienstverlener-DV1",
+            "Eerste Dienstverlener",
+            "Consent DV1",
+            "Substantial",
+            "client-dv1",
+            "https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV/protocol/openid-connect/certs",
+            List.of("https://keycloak-adolfobenedetti-1-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/realms/DV/broker/*"),
+            List.of()
+        ));
+    }
 
     @POST
     public void add(RelyingParty relyingParty) {
@@ -60,7 +75,7 @@ record RelyingPartyResult(
         String schemeVersion,
         @JsonProperty("RPs")
         Set<RelyingParty> relyingParties
-){
+) {
     static RelyingPartyResult of(Set<RelyingParty> relyingParties) {
         return new RelyingPartyResult(
                 "http://test.authority.eid.minbzk.nl",

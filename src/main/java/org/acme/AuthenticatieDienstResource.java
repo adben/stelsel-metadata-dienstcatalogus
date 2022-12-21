@@ -59,8 +59,8 @@ public class AuthenticatieDienstResource {
                 .build(ResourceClient.class);
 
         return ads.stream().map(ad -> {
-                    List<Map<String, Object>> clients = client.dienstverleners().stream()
-                            .map(dv -> TemplateUtils.obtainClients(dv, ad, oidcClientTemplate, samlClientTemplate))
+                    List<Map<String, Object>> clients = client.relyingParties().relyingParties().stream()
+                            .map(rp -> TemplateUtils.obtainClients(rp, ad, oidcClientTemplate, samlClientTemplate))
                             .toList();
                     return new AuthenticatieDienst(ad.name, ad.description, clients);
                 })

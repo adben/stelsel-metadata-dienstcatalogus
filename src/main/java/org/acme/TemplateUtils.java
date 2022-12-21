@@ -2,10 +2,8 @@ package org.acme;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
 import io.quarkus.qute.Template;
-import org.acme.model.AuthenticatieDienst;
-import org.acme.model.Dienstverlener;
+import org.acme.model.*;
 import org.jboss.logging.Logger;
 
 import java.io.IOException;
@@ -32,16 +30,41 @@ public interface TemplateUtils {
                 "saml", generateProviderFromTemplate(dv, ad, samlProviderTemplate)));
     }
 
-    static Map<String, Object> obtainClients(Dienstverlener dv, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
-        return Map.of(dv.name, Map.of("oidc", generateClientFromTemplate(dv, ad, oidcClientTemplate),
-                "saml", generateClientFromTemplate(dv, ad, samlClientTemplate)));
+    static Map<String, Object> obtainClients(RelyingParty rp, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
+        Map<String, Object> clientConfig;
+        if (rp instanceof OidcRelyingParty oidcRp) {
+            clientConfig = Map.of("oidc", generateOidcClientFromTemplate(oidcRp, ad, oidcClientTemplate));
+        } else if (rp instanceof SamlRelyingParty samlRp) {
+            clientConfig = Map.of("saml", generateSamlClientFromTemplate(samlRp, ad, samlClientTemplate));
+        } else {
+            throw new UnsupportedOperationException("Unsupported relying party type");
+        }
+        return Map.of(rp.name(), clientConfig);
     }
 
-    private static Map<String, Object> generateClientFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Template template) {
-        String naam = "client-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
+    private static Map<String, Object> generateOidcClientFromTemplate(final OidcRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
+        String naam = "client-dienstverlener-".concat(rp.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
+        var rawJson = template
+                .data("name", rp.name())
+                .data("clientId", rp.clientId())
+                .data("description", rp.description())
+                .data("redirectUris", rp.redirectUris())
+                .data("jwksUrl", rp.jwksUri())
+                .data("consentText", rp.consentText())
+                .render();
+        try {
+            return new ObjectMapper().readValue(rawJson, Map.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Map<String, Object> generateSamlClientFromTemplate(final SamlRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
+        String naam = "client-dienstverlener-".concat(rp.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
         var rawJson = template
                 .data("name", naam)
-                .data("clientId", naam).render();
+                .data("clientId", naam)
+                .render();
         try {
             return new ObjectMapper().readValue(rawJson, Map.class);
         } catch (JsonProcessingException e) {
