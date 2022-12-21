@@ -1,8 +1,6 @@
 package org.acme;
 
 import org.acme.model.AuthenticatieDienst;
-import org.acme.model.Dienstverlener;
-import org.acme.model.RelyingParty;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,10 +10,6 @@ import java.util.List;
 
 @Path("/")
 public interface ResourceClient {
-    @GET
-    @Path("/dienstverlener/simple")
-    @Produces(MediaType.APPLICATION_JSON)
-    List<Dienstverlener> dienstverleners();
 
     @GET
     @Path("/relyingparties")

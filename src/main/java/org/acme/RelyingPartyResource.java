@@ -1,7 +1,6 @@
 package org.acme;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.acme.model.Dienstverlener;
 import org.acme.model.OidcRelyingParty;
 import org.acme.model.RelyingParty;
 import org.acme.model.SamlRelyingParty;

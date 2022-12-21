@@ -25,11 +25,6 @@ public interface TemplateUtils {
         }
     }
 
-    static Map<String, Object> obtainProviders(AuthenticatieDienst ad, Dienstverlener dv, final Template oidcProviderTemplate, final Template samlProviderTemplate) {
-        return Map.of(ad.name, Map.of("oidc", generateProviderFromTemplate(dv, ad, oidcProviderTemplate),
-                "saml", generateProviderFromTemplate(dv, ad, samlProviderTemplate)));
-    }
-
     static Map<String, Object> obtainClients(RelyingParty rp, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
         Map<String, Object> clientConfig;
         if (rp instanceof OidcRelyingParty oidcRp) {
@@ -64,20 +59,6 @@ public interface TemplateUtils {
         var rawJson = template
                 .data("name", naam)
                 .data("clientId", naam)
-                .render();
-        try {
-            return new ObjectMapper().readValue(rawJson, Map.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Map<String, Object> generateProviderFromTemplate(final Dienstverlener dv, final AuthenticatieDienst ad, final Template template) {
-        String naam = "provider-dienstverlener-".concat(dv.name).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        var rawJson = template
-                .data("alias", naam)
-                .data("displayName", naam)
-                .data("providerId", naam)
                 .render();
         try {
             return new ObjectMapper().readValue(rawJson, Map.class);
