@@ -8,6 +8,7 @@ import io.quarkus.qute.Template;
 import org.acme.model.AuthenticatieDienst;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,6 +25,9 @@ public class KeycloakResource {
 
     @Context
     private UriInfo uriInfo;
+
+    @Inject
+    private ObjectMapper objectMapper;
 
     @Location("template_oidc_client.json")
     private Template oidcClientTemplate;
@@ -42,7 +46,6 @@ public class KeycloakResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Set<ClientConfig> clientConfigs() {
         Log.info("AuthenticatieDiensten met clients");
-        var objectMapper = new ObjectMapper();
 
         ResourceClient client = RestClientBuilder.newBuilder()
                 .baseUri(uriInfo.getBaseUri())
@@ -68,7 +71,6 @@ public class KeycloakResource {
                 .baseUri(uriInfo.getBaseUri())
                 .build(ResourceClient.class);
         var rps = client.relyingParties().relyingParties();
-        var objectMapper = new ObjectMapper();
 
         return rps.stream().map(rp -> {
                     List<JsonNode> idpConfigs = client.authenticatiediensten().stream()
