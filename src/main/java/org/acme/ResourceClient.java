@@ -17,7 +17,7 @@ public interface ResourceClient {
     RelyingPartyResult relyingParties();
 
     @GET
-    @Path("/authenticatiediensten/simple")
+    @Path("/authenticatiediensten")
     @Produces(MediaType.APPLICATION_JSON)
     List<AuthenticatieDienst> authenticatiediensten();
 }
