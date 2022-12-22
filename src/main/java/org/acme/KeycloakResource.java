@@ -1,11 +1,11 @@
 package org.acme;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.logging.Log;
 import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
-import org.acme.model.AuthenticatieDienst;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import javax.inject.Inject;
@@ -15,8 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,10 +51,14 @@ public class KeycloakResource {
         var ads = client.authenticatiediensten();
 
         return ads.stream().map(ad -> {
-                    List<JsonNode> clients = client.relyingParties().relyingParties().stream()
+                    var rawClientsJson = client.relyingParties().relyingParties().stream()
                             .map(rp -> TemplateUtils.obtainClients(rp, ad, oidcClientTemplate, samlClientTemplate))
-                            .toList();
-                    return new ClientConfig(ad.name, objectMapper.createArrayNode().addAll(clients));
+                            .collect(Collectors.joining(",", "[", "]"));
+                    try {
+                        return new ClientConfig(ad.name, objectMapper.readTree(rawClientsJson));
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                 })
                 .collect(Collectors.toSet());
     }
@@ -73,10 +75,14 @@ public class KeycloakResource {
         var rps = client.relyingParties().relyingParties();
 
         return rps.stream().map(rp -> {
-                    List<JsonNode> idpConfigs = client.authenticatiediensten().stream()
+                    var rawIdpConfigs = client.authenticatiediensten().stream()
                             .map(ad -> TemplateUtils.obtainProviderConfig(ad, rp, oidcIdpTemplate, samlIdpTemplate))
-                            .toList();
-                    return new IdpConfig(rp.name(), objectMapper.createArrayNode().addAll(idpConfigs));
+                            .collect(Collectors.joining(",", "[", "]"));
+                    try {
+                        return new IdpConfig(rp.name(), objectMapper.readTree(rawIdpConfigs));
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                 })
                 .collect(Collectors.toSet());
     }

@@ -1,19 +1,14 @@
 package org.acme;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.qute.Template;
 import org.acme.model.AuthenticatieDienst;
 import org.acme.model.OidcRelyingParty;
 import org.acme.model.RelyingParty;
 import org.acme.model.SamlRelyingParty;
 
-import java.util.Map;
-
 public interface TemplateUtils {
 
-    static JsonNode obtainProviderConfig(AuthenticatieDienst ad, RelyingParty rp, final Template oidcProviderTemplate, final Template samlProviderTemplate) {
+    static String obtainProviderConfig(AuthenticatieDienst ad, RelyingParty rp, final Template oidcProviderTemplate, final Template samlProviderTemplate) {
         if (rp instanceof OidcRelyingParty oidcRp) {
             return generateOidcProviderFromTemplate(ad, oidcRp, oidcProviderTemplate);
         } else if (rp instanceof SamlRelyingParty samlRp) {
@@ -23,7 +18,7 @@ public interface TemplateUtils {
         }
     }
 
-    static JsonNode obtainClients(RelyingParty rp, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
+    static String obtainClients(RelyingParty rp, AuthenticatieDienst ad, final Template oidcClientTemplate, final Template samlClientTemplate) {
         if (rp instanceof OidcRelyingParty oidcRp) {
             return generateOidcClientFromTemplate(oidcRp, ad, oidcClientTemplate);
         } else if (rp instanceof SamlRelyingParty samlRp) {
@@ -33,9 +28,8 @@ public interface TemplateUtils {
         }
     }
 
-    private static JsonNode generateOidcClientFromTemplate(final OidcRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
-        String naam = "client-dienstverlener-".concat(rp.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        var rawJson = template
+    private static String generateOidcClientFromTemplate(final OidcRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
+        return template
                 .data("name", rp.name())
                 .data("clientId", rp.clientId())
                 .data("description", rp.description())
@@ -43,51 +37,31 @@ public interface TemplateUtils {
                 .data("jwksUrl", rp.jwksUri())
                 .data("consentText", rp.consentText())
                 .render();
-        try {
-            return new ObjectMapper().readTree(rawJson);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    private static JsonNode generateSamlClientFromTemplate(final SamlRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
+    private static String generateSamlClientFromTemplate(final SamlRelyingParty rp, final AuthenticatieDienst ad, final Template template) {
         String naam = "client-dienstverlener-".concat(rp.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        var rawJson = template
+        return template
                 .data("name", naam)
                 .data("clientId", naam)
                 .render();
-        try {
-            return new ObjectMapper().readTree(rawJson);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    private static JsonNode generateOidcProviderFromTemplate(final AuthenticatieDienst ad, final RelyingParty dv, final Template template) {
+    private static String generateOidcProviderFromTemplate(final AuthenticatieDienst ad, final RelyingParty dv, final Template template) {
         String naam = "provider-dienstverlener-".concat(dv.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        var rawJson = template
+        return template
                 .data("alias", naam)
                 .data("displayName", naam)
                 .data("providerId", naam)
                 .render();
-        try {
-            return new ObjectMapper().readTree(rawJson);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    private static JsonNode generateSamlProviderFromTemplate(final AuthenticatieDienst ad, final RelyingParty dv, final Template template) {
+    private static String generateSamlProviderFromTemplate(final AuthenticatieDienst ad, final RelyingParty dv, final Template template) {
         String naam = "provider-dienstverlener-".concat(dv.name()).concat("-").concat("authenticatiedienst-").concat(ad.name);
-        var rawJson = template
+        return template
                 .data("alias", naam)
                 .data("displayName", naam)
                 .data("providerId", naam)
                 .render();
-        try {
-            return new ObjectMapper().readTree(rawJson);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
