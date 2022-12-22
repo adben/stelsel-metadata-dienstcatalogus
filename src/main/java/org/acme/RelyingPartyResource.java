@@ -42,6 +42,16 @@ public class RelyingPartyResource {
         return RelyingPartyResult.of(relyingParties);
     }
 
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") String id) {
+        relyingParties.removeIf(rp -> {
+            if (rp instanceof OidcRelyingParty oidcRp) return oidcRp.clientId().equals(id);
+            else if (rp instanceof SamlRelyingParty samlRp) return samlRp.entityId().equals(id);
+            else return false;
+        });
+    }
+
     @GET
     @Path("/oidc/{clientId}")
     @Produces(MediaType.APPLICATION_JSON)
