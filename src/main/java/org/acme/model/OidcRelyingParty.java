@@ -9,16 +9,17 @@ public record OidcRelyingParty(
         String name,
         @JsonProperty(required = true)
         String description,
+        @JsonProperty(value = "consent_text")
         String consentText,
-        @JsonProperty(required = true)
+        @JsonProperty(value="minimum_loa", required = true)
         String minimumLoa,
-        @JsonProperty(required = true)
+        @JsonProperty(value="client_id", required = true)
         String clientId,
         @JsonProperty(value = "jwks_uri", required = true)
         String jwksUri,
         @JsonProperty(value = "redirect_uris", required = true)
         List<String> redirectUris,
-        @JsonProperty(value = "post_logout_redirect_uri", required = true)
+        @JsonProperty(value = "post_logout_redirect_uris", required = true)
         List<String> postLogoutRedirectUris
 ) implements RelyingParty {
 }

@@ -31,12 +31,12 @@ class RPResourceTest {
                           "type": "oidc",
                           "name": "Lutjebroek",
                           "description": "Lutjebroek vergunningen",
-                          "consentText": "Mooie consent text voor Lutjebroek Vergunningen",
-                          "minimumLoa": "high",
-                          "clientId": "lb-verg-oidc",
+                          "consent_text": "Mooie consent text voor Lutjebroek Vergunningen",
+                          "minimum_loa": "high",
+                          "client_id": "lb-verg-oidc",
                           "jwks_uri": "https://certs.example.com",
                           "redirect_uris": ["https://app.example.com/*"],
-                          "post_logout_redirect_uri": []
+                          "post_logout_redirect_uris": []
                         }""")
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .when()
